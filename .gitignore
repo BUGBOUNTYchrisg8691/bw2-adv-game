@@ -686,3 +686,4 @@ zsdoc/data
 
 # End of https://www.toptal.com/developers/gitignore/api/vim,vscode,visualstudiocode,webstorm+all,pycharm+all,jetbrains+all,node,react,linux,zsh,git,less,sass,python,django,venv,virtualenv
 
+**/package-lock.json
