@@ -36,10 +36,10 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      "process.env.ADV_APP_ID": JSON.stringify(process.env.ADV_APP_ID),
-      "process.env.ADV_KEY": JSON.stringify(process.env.ADV_KEY),
-      "process.env.ADV_SECRET": JSON.stringify(process.env.ADV_SECRET),
-      "process.env.ADV_CLUSTER": JSON.stringify(process.env.ADV_CLUSTER),
+      "process.env.PUSHER_APP_ID": JSON.stringify(process.env.PUSHER_APP_ID),
+      "process.env.PUSHER_KEY": JSON.stringify(process.env.PUSHER_KEY),
+      "process.env.PUSHER_SECRET": JSON.stringify(process.env.PUSHER_SECRET),
+      "process.env.PUSHER_CLUSTER": JSON.stringify(process.env.PUSHER_CLUSTER),
     }),
   ],
 };

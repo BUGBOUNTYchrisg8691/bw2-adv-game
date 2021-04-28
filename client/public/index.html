@@ -10,7 +10,7 @@
     // Enable pusher logging - don't include this in productuon
     Pusher.logToConsole = true;
 
-    let pusher = new Pusher('%ADV_KEY%', { cluster: '%ADV_CLUSTER%' });
+    let pusher = new Pusher('%PUSHER_KEY%', { cluster: '%PUSHER_CLUSTER%' });
 
     let channel = pusher.subscribe('my-channel');
     channel.bind('my-event', (data) => {
