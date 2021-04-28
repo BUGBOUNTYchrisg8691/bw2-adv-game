@@ -1,6 +1,8 @@
 const path = require("path");
 const webpack = require("webpack");
 
+require("dotenv").config({ path: path.resolve(process.cwd(), ".env") });
+
 module.exports = {
   entry: "./src/index.js",
   mode: "development",
@@ -31,5 +33,13 @@ module.exports = {
     hotOnly: true,
     open: true,
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      "process.env.ADV_APP_ID": JSON.stringify(process.env.ADV_APP_ID),
+      "process.env.ADV_KEY": JSON.stringify(process.env.ADV_KEY),
+      "process.env.ADV_SECRET": JSON.stringify(process.env.ADV_SECRET),
+      "process.env.ADV_CLUSTER": JSON.stringify(process.env.ADV_CLUSTER),
+    }),
+  ],
 };
