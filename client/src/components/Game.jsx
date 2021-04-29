@@ -13,6 +13,12 @@ const initInfo = {
 const Game = () => {
   const [info, setInfo] = React.useState(initInfo);
 
+  let pusher = new Pusher(process.env.PUSHER_KEY, {
+    cluster: process.env.PUSHER_CLUSTER,
+  });
+
+  let channel = pusher.subscribe(`p-channel-${info.uuid}`);
+
   React.useEffect(() => {
     axiosAuth()
       .get("/api/adv/init/")
