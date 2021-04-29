@@ -1,6 +1,7 @@
 import React from "react";
 
 import { axiosAuth } from "../utils";
+import { gameOps } from "../utils/game";
 
 const initInfo = {
   uuid: "",
@@ -18,6 +19,7 @@ const Game = () => {
   });
 
   let channel = pusher.subscribe(`p-channel-${info.uuid}`);
+  channel.bind("broadcast", (mes) => console.log(mes));
 
   React.useEffect(() => {
     axiosAuth()
@@ -42,6 +44,23 @@ const Game = () => {
           <li>Players: {JSON.stringify(info.players)}</li>
         </ul>
       </div>
+      <button
+        className="button"
+        type="submit"
+        onClick={(e) => {
+          e.preventDefault();
+          gameOps
+            .say({ message: "test" })
+            .then((res) => {
+              console.log({ res });
+            })
+            .catch((err) => {
+              console.log({ err });
+            });
+        }}
+      >
+        Test Say
+      </button>
     </div>
   );
 };
