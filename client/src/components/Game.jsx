@@ -23,6 +23,7 @@ const Game = () => {
   const [info, setInfo] = React.useState(initInfo);
   const [formVals, setFormVals] = React.useState(initFormVals);
   const [sayVal, setSayVal] = React.useState(initSayVal);
+  const [chat, setChat] = React.useState([]);
 
   const pusher = new Pusher(process.env.PUSHER_KEY, {
     cluster: process.env.PUSHER_CLUSTER,
@@ -41,7 +42,12 @@ const Game = () => {
 
     if (info) {
       const channel = pusher.subscribe(`p-channel-${info.uuid}`);
-      channel.bind("broadcast", (data) => console.log(data));
+      channel.bind("broadcast", (data) => {
+        const { username, message } = data;
+        setChat((prevState) => {
+          return [...prevState, { username, message }];
+        });
+      });
     }
   }, []);
 
@@ -138,6 +144,18 @@ const Game = () => {
       >
         Submit
       </button>
+      <div className="chat-container">
+        <h3>Chat</h3>
+        <br />
+        {chat.length > 0 &&
+          chat.map((item) => {
+            return (
+              <div>
+                {item.username} - {item.message}
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };
