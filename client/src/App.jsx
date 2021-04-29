@@ -2,9 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { hot } from "react-hot-loader";
 
-import { SignUpSignInForm, PrivateRoute, Game } from "./";
+import { SignUpSignInForm, PrivateRoute, Game } from "./components";
 
-import "../styles/App.css";
+import "./styles/App.css";
 
 const App = () => {
   return (
