@@ -15,16 +15,18 @@ const initFormVals = {
   direction: "md",
 };
 
+const initSayVal = {
+  say: "",
+};
+
 const Game = () => {
   const [info, setInfo] = React.useState(initInfo);
   const [formVals, setFormVals] = React.useState(initFormVals);
+  const [sayVal, setSayVal] = React.useState(initSayVal);
 
-  let pusher = new Pusher(process.env.PUSHER_KEY, {
+  const pusher = new Pusher(process.env.PUSHER_KEY, {
     cluster: process.env.PUSHER_CLUSTER,
   });
-
-  let channel = pusher.subscribe(`p-channel-${info.uuid}`);
-  channel.bind("broadcast", (mes) => console.log(mes));
 
   React.useEffect(() => {
     axiosAuth()
@@ -36,6 +38,11 @@ const Game = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    if (info) {
+      const channel = pusher.subscribe(`p-channel-${info.uuid}`);
+      channel.bind("broadcast", (data) => console.log(data));
+    }
   }, []);
 
   const handleSubmit = (e) => {
@@ -63,6 +70,14 @@ const Game = () => {
     const { name, value } = e.target;
     setFormVals({
       ...formVals,
+      [name]: value,
+    });
+  };
+
+  const handleChangeSay = (e) => {
+    const { name, value } = e.target;
+    setSayVal({
+      ...sayVal,
       [name]: value,
     });
   };
@@ -96,22 +111,32 @@ const Game = () => {
         </label>
         <button type="submit">Submit</button>
       </form>
+      <label className="label say-label">
+        Say something to room:
+        <input
+          type="text"
+          value={sayVal.say}
+          onChange={handleChangeSay}
+          name="say"
+        />
+      </label>
       <button
         className="button"
         type="submit"
         onClick={(e) => {
           e.preventDefault();
           gameOps
-            .say({ message: "test" })
+            .say({ message: sayVal.say })
             .then((res) => {
               console.log({ res });
             })
             .catch((err) => {
               console.log({ err });
             });
+          setSayVal(initSayVal);
         }}
       >
-        Test Say
+        Submit
       </button>
     </div>
   );
