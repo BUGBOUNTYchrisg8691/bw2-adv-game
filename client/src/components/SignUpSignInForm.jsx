@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { hot } from "react-hot-loader";
+
+import { preAuthAxiosCall } from "../utils";
 
 const initFormVals = {
   username: "",
@@ -23,7 +24,15 @@ const SignUpSignInForm = ({ register }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // logic for signin/signup
+    preAuthAxiosCall(formVals)
+      .then((res) => {
+        push("/game");
+        console.log({ res });
+      })
+      .catch((err) => {
+        alert("There was an issue logging in!");
+        console.log({ err });
+      });
 
     setFormVals(initFormVals);
   };
@@ -111,4 +120,4 @@ const SignUpSignInForm = ({ register }) => {
   );
 };
 
-export default hot(module)(SignUpSignInForm);
+export default SignUpSignInForm;

@@ -11,13 +11,29 @@ export const baseAxios = () => {
   });
 };
 
-export const axiosCall = (user) => {
-  return baseAxios
-    .post(user)
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      return err;
-    });
+const preAuthAxiosCall = (creds) => {
+  if (creds["password2"]) {
+    return baseAxios()
+      .post("/api/registration/", creds)
+      .then((res) => {
+        window.localStorage.setItem("token", res.data.key);
+        return res;
+      })
+      .catch((err) => {
+        return err;
+      });
+  } else {
+    const user = { username: creds["username"], password: creds["password1"] };
+    return baseAxios()
+      .post("/api/login/", user)
+      .then((res) => {
+        window.localStorage.setItem("token", res.data.key);
+        return res;
+      })
+      .catch((err) => {
+        return err;
+      });
+  }
 };
+
+export default preAuthAxiosCall;
